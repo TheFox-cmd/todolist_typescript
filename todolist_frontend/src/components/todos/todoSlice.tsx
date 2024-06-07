@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Todo } from '../data/todoInterface';
+import { Todo } from '../../data/interface';
 
 const todoSlice = createSlice({
   name: 'todos',

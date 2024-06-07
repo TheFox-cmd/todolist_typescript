@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, removeTodo, updateTodo } from './components/todoSlice'; 
-import { RootState } from './components/store';
-import { Todo } from './data/todoInterface';
+import { addTodo, removeTodo, updateTodo } from './todoSlice'; 
+import { AuthRootState, TodoRootState } from '../store';
+import { Todo } from '../../data/interface';
+import { clearToken } from '../login/authSlice';
+import api from '../../api';
+
 
 const Todolist = () => {
-  const todos = useSelector((state : RootState) => state.todos);
+  const todos = useSelector((state : TodoRootState) => state.todos);
   const dispatch = useDispatch();
 
   const [newTodoText, setNewTodoText] = useState('');
@@ -22,6 +25,24 @@ const Todolist = () => {
   const handleSaveTodo = () => {
     dispatch(updateTodo(editTodo));
     setEditTodo({ id: -1, text: '' });
+  };
+
+  const handleSignout = () => {
+    dispatch(clearToken())
+  }
+
+  const handleDelete = async () => {
+    // try {
+    //   const response = await api.delete('/api/auth/delete', { data: { id:  } });
+    //   if (response.status === 200) {
+    //     dispatch(clearToken());
+    //     localStorage.removeItem('token');
+        
+    //   }
+    // } catch (error) {
+    //   console.error('Error deleting account:', error);
+    //   alert('Failed to delete account. Please try again.');
+    // }
   };
 
   return (
@@ -58,6 +79,7 @@ const Todolist = () => {
           </li>
         ))}
       </ul>
+      <button onClick={() => handleSignout()}>Sign Out</button>
     </div>
   );
 };
